@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pritam Shahi - Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #1a1a2e 50%, #16213e 100%);
+            color: rgb(131, 83, 83);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 80px 20px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: #b0b0b0;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 12px 24px;
+            border-radius: 20px;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: #0066ff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0052cc;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 102, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid #0066ff;
+        }
+
+        .btn-secondary:hover {
+            background: #0066ff;
+            transform: translateY(-2px);
+        }
+
+        /* About Section */
+        .about {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.5s ease;
+            visibility: hidden;
+        }
+
+        .about.active {
+            max-height: 600px;
+            padding: 60px 20px;
+            visibility: visible;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 800px;
+            margin: 0 auto;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .card h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .card p {
+            color: #d0d0d0;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 600px;
+            width: 90%;
+            animation: slideUp 0.4s ease;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            padding: 0;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            transform: scale(1.2);
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Gallery Section */
+        .gallery {
+            padding: 60px 20px;
+        }
+
+        .gallery h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 40px;
+            font-weight: 600;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .gallery-item {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease;
+            animation: fadeInUp 0.8s ease-out 0.4s both, float 6s ease-in-out infinite;
+            aspect-ratio: 1 / 1;
+            height: auto;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .gallery-item:nth-child(2) {
+            aspect-ratio: 19 / 16;
+        }
+
+        .gallery-caption {
+            padding: 15px;
+            text-align: center;
+            color: #d0d0d0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            font-style: italic;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .gallery-item-placeholder {
+            height: 250px;
+            background: #333333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gallery-item-placeholder i {
+            font-size: 3rem;
+            color: #666666;
+        }
+
+        /* Latest Thoughts Section */
+        .latest-thoughts {
+            padding: 60px 20px;
+        }
+
+        .latest-thoughts h2 {
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .thoughts-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 800px;
+            margin: 0 auto;
+            animation: fadeInUp 0.8s ease-out 0.6s both;
+        }
+
+        .thoughts-card p {
+            color: #b0b0b0;
+            margin-bottom: 20px;
+        }
+
+        .facebook-feed-placeholder {
+            background: #2a2a2a;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            color: #808080;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #808080;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 60px;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            button {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+
+            .card, .thoughts-card {
+                padding: 20px;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <h1>Pritam Shahi</h1>
+        <p>Wine Sommelier | Future Restaurant Manager | Lifelong Learner</p>
+        <div class="button-group">
+            <button class="btn-primary" onclick="toggleAbout()">
+                <i class="fas fa-user"></i> About Me
+            </button>
+            <a href="https://www.facebook.com/share/p/1CCheQcfh7/" target="_blank" style="text-decoration: none;">
+                <button class="btn-secondary">
+                    <i class="fab fa-facebook"></i> Facebook
+                </button>
+            </a>
+        </div>
+    </div>
+
+    <div class="about">
+        <div class="card">
+            <h2>About Me</h2>
+            <p>Welcome to my personal space on the internet. I am Pritam Shahi, born on January 31, 1995, in Pyin Oo Lwin, Mandalay division, Myanmar. I am a passionate photographer learning to capture life's beautiful moments through my lens. Beyond photography, I am passionate about wine, hospitality, and leadership. My journey is focused on becoming a strong manager while continuously improving my knowledge and mindset through personal growth and meaningful experiences.</p>
+            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.2);">
+                <p style="font-size: 0.95rem; color: #a0a0a0;"><strong>📍 Location:</strong> Pyin Oo Lwin, Myanmar</p>
+                <p style="font-size: 0.95rem; color: #a0a0a0;"><strong>🎂 Date of Birth:</strong> January 31, 1995</p>
+                <p style="font-size: 0.95rem; color: #a0a0a0;"><strong>📸 Profession:</strong> Photographer & Hospitality Enthusiast</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="gallery">
+        <h2>My Photos</h2>
+        <div class="gallery-grid">
+            <div>
+                <div class="gallery-item">
+                    <img src="photo1.jpg" alt="Personal Photo">
+                </div>
+                <p class="gallery-caption">Love is finding someone who makes life complete and meaningful.</p>
+            </div>
+            <div>
+                <div class="gallery-item">
+                    <img src="photo2.jpg" alt="Personal Photo">
+                </div>
+                <p class="gallery-caption">Living life to the fullest and creating unforgettable memories every day.</p>
+            </div>
+            <div>
+                <div class="gallery-item">
+                    <img src="photo3.jpg" alt="Personal Photo">
+                </div>
+                <p class="gallery-caption">Hard work and dedication are the keys to success in my career journey.</p>
+            </div>
+            <div>
+                <div class="gallery-item">
+                    <img src="https://static.wixstatic.com/media/7b8835_45ee23c2f0424940a136065d9ba50130~mv2.jpg/v1/fill/w_750,h_966,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/DSC_1418_edited.jpg" alt="Professional Photo">
+                </div>
+                <p class="gallery-caption">Professional excellence and refined moments define my journey.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="latest-thoughts">
+        <h2>Latest Thoughts</h2>
+        <div class="thoughts-card">
+            <p>Check out my latest post on Facebook:</p>
+            <div id="fb-root"></div>
+            <div class="fb-post" data-href="https://www.facebook.com/share/p/1CCheQcfh7/" data-width="500" data-show-text="true">
+                <blockquote cite="https://www.facebook.com/share/p/1CCheQcfh7/" class="fb-xfbml-parse-ignore">
+                    <p>View my post on Facebook</p>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        © <span id="year"></span> Pritam Shahi. All rights reserved.
+    </footer>
+
+
+    <!-- Facebook SDK -->
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v18.0" allowFullScreen="" allow="autoplay clipboard-write encrypted-media picture-in-picture toolbar-sharing"></script>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        function toggleAbout() {
+            const aboutSection = document.querySelector('.about');
+            aboutSection.classList.toggle('active');
+            
+            if (aboutSection.classList.contains('active')) {
+                aboutSection.scrollIntoView({behavior: 'smooth', block: 'start'});
+            }
+        }
+    </script>
+</body>
+</html>
